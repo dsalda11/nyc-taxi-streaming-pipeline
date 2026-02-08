@@ -1,0 +1,32 @@
+neo4j:
+  name: neo4j
+  edition: community
+  password: project1phase2
+  acceptLicenseAgreement: "yes"
+
+  plugins:
+    - graph-data-science
+  config:
+    dbms.security.procedures.unrestricted: "gds.*,apoc.*"
+    dbms.security.procedures.allowlist: "gds.*,apoc.*"
+
+env:
+  NEO4J_PLUGINS: '["graph-data-science"]'
+
+volumes:
+  data:
+    mode: defaultStorageClass
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "2Gi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+
+service:
+  type: ClusterIP
+  ports:
+    http: 7474
+    bolt: 7687

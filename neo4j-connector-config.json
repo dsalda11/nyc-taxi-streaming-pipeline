@@ -1,0 +1,18 @@
+{
+     "name": "neo4j-sink-connector",
+     "config": {
+          "connector.class": "streams.kafka.connect.sink.Neo4jSinkConnector",
+          "topics": "nyc_taxicab_data",
+          "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+          "key.converter.schemas.enable": "false",
+          "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+          "value.converter.schemas.enable": "false",
+          "neo4j.server.uri": "bolt://my-neo4j-release:7687",
+          "neo4j.authentication.basic.username": "neo4j",
+          "neo4j.authentication.basic.password": "processingpipeline",
+          "neo4j.topic.cypher.nyc_taxicab_data": "UNWIND $events AS event MERGE (pickup:Location {name: toInteger(event.PULocationID)}) MERGE (dropoff:Location {name: toInteger(event.DOLocationID)}) CREATE (pickup)-[:TRIP {distance: toFloat(event.trip_distance), fare: toFloat(event.fare_amount)}]->(dropoff)",
+          "errors.tolerance": "all",
+          "errors.log.enable": "true",
+          "errors.log.include.messages": "true"
+     }
+}
